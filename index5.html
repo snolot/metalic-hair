@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>three-hedgehog</title>
-	<link rel="stylesheet" type="text/css" href="../style.css">
+	<title>Gold-hair</title>
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
 	<style type="text/css">
 		.info{
 			left:200px	;
 		}
+		.title{
+			width: 800px;
+		}
 	</style>
 </head>
 <body>
-	<div class="title">Hedgehog</div>
+	<div class="title">Gold-hair</div>
 	<div class="subtitle">WebGL Effect<div class="info">Done with three.js</div></div>
 	<script type="module">
-		import * as THREE from '../three.js-131/build/three.module.js';
-		import { OrbitControls } from '../three.js-131/examples/jsm/controls/OrbitControls.js';
-		import { GLTFLoader } from '../three.js-131/examples/jsm/loaders/GLTFLoader.js';
-		import {HDRCubeTextureLoader} from '../three.js/examples/jsm/loaders/HDRCubeTextureLoader.js';
-		import {SkinnedMeshPositionReader} from './SkinnedMeshPositionReader.js';
-		import { FlakesTexture } from '../three.js-131/examples/jsm/textures/FlakesTexture.js';
-		import {TWEEN} from '../three.js-131/examples/jsm/libs/tween.module.min.js';
+		import * as THREE from './libs/build/three.module.js';
+		import { OrbitControls } from './libs/examples/jsm/controls/OrbitControls.js';
+		import { GLTFLoader } from './libs/examples/jsm/loaders/GLTFLoader.js';
+		import {HDRCubeTextureLoader} from './libs/examples/jsm/loaders/HDRCubeTextureLoader.js';
+		import {SkinnedMeshPositionReader} from './src/SkinnedMeshPositionReader.js';
+		import { FlakesTexture } from './libs/examples/jsm/textures/FlakesTexture.js';
+		import {TWEEN} from './libs/examples/jsm/libs/tween.module.min.js';
 		const simpleNoise = `
 			float N (vec2 st) { // https://thebookofshaders.com/10/
 			        return fract( sin( dot( st.xy, vec2(12.9898,78.233 ) ) ) *  43758.5453123);
@@ -56,7 +59,7 @@
 		    minFlex: 0.8,
 		    maxFlex: 1.0,
 		    fuzz: 0.8,
-		    gravity: 1.5,
+		    gravity: 1.,
 		    centrifugalForceFactor: 2.0,
 		    movementForceFactor: 0.75,
 		    movementDecay: 0.7,
@@ -70,7 +73,7 @@
 		let camera, scene, renderer, model, material, control, mixer, instancedMesh;
 		let COUNT;
 
-		const tex = new THREE.TextureLoader().load('./fur3.jpeg');
+		const tex = new THREE.TextureLoader().load('./textures/fur3.jpeg');
 		tex.flipY = false;
 
 		let textureCube;
@@ -129,7 +132,7 @@
 
 		const initCubeMap = () => {
 			textureCube = new HDRCubeTextureLoader()
-			.setPath( './' )
+			.setPath( './textures/' )
 			.load( [ 'irr_posx.hdr', 'irr_negx.hdr', 'irr_posy.hdr', 'irr_negy.hdr', 'irr_posz.hdr', 'irr_negz.hdr' ],
 				( texture ) => {
 					scene.environment = texture;
@@ -213,7 +216,7 @@
 			geometry.setAttribute('baseDirection', new THREE.InstancedBufferAttribute(baseDirections, 3))
 
 
-			const texture = new THREE.TextureLoader().load('./grass_blade.jpg');
+			const texture = new THREE.TextureLoader().load('./textures/grass_blade.jpg');
 
 			//material = new THREE.MeshStandardMaterial();
 			const uniforms = {
@@ -569,13 +572,13 @@
 				angle:0
 			}
 
-			const back = new TWEEN.Tween(obj).to({y: 0}, 500).
+			const back = new TWEEN.Tween(obj).to({y: 0}, 1500).
 			onUpdate(() => {
 				tweenPos.y = obj.y; 
 				setPosition(tweenPos);
 			});
 
-			new TWEEN.Tween(obj).to({y: 7,  angle:Math.PI}, 500).
+			new TWEEN.Tween(obj).to({y: 7,  angle:Math.PI}, 1500).
 			onUpdate(() => {
 				tweenPos.y = obj.y; 
 				setPosition(tweenPos);

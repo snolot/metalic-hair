@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>three-hedgehog</title>
-	<link rel="stylesheet" type="text/css" href="../style.css">
+	<title>Hedgehog</title>
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
 	<style type="text/css">
 		.info{
 			left:200px	;
@@ -13,11 +13,11 @@
 	<div class="title">Hedgehog</div>
 	<div class="subtitle">WebGL Effect<div class="info">Done with three.js</div></div>
 	<script type="module">
-		import * as THREE from '../three.js-131/build/three.module.js';
-		import { OrbitControls } from '../three.js-131/examples/jsm/controls/OrbitControls.js';
-		import { GLTFLoader } from '../three.js-131/examples/jsm/loaders/GLTFLoader.js';
-		import {HDRCubeTextureLoader} from '../three.js/examples/jsm/loaders/HDRCubeTextureLoader.js';
-		import {SkinnedMeshPositionReader} from './SkinnedMeshPositionReader.js';
+		import * as THREE from './libs/build/three.module.js';
+		import { OrbitControls } from './libs/examples/jsm/controls/OrbitControls.js';
+		import { GLTFLoader } from './libs/examples/jsm/loaders/GLTFLoader.js';
+		import {HDRCubeTextureLoader} from './libs/examples/jsm/loaders/HDRCubeTextureLoader.js';
+		import {SkinnedMeshPositionReader} from './src/SkinnedMeshPositionReader.js';
 
 		const simpleNoise = `
 			float N (vec2 st) { // https://thebookofshaders.com/10/
@@ -54,7 +54,7 @@
 		let camera, scene, renderer, model, material, control, mixer, instancedMesh;
 		let COUNT;
 
-		const tex = new THREE.TextureLoader().load('./fur3.jpeg');
+		const tex = new THREE.TextureLoader().load('./textures/fur3.jpeg');
 		tex.flipY = false;
 
 		let textureCube;
@@ -62,7 +62,7 @@
 
 		const initCubeMap = () => {
 			textureCube = new HDRCubeTextureLoader()
-			.setPath( './' )
+			.setPath( './textures/' )
 			.load( [ 'irr_posx.hdr', 'irr_negx.hdr', 'irr_posy.hdr', 'irr_negy.hdr', 'irr_posz.hdr', 'irr_negz.hdr' ],
 				( texture ) => {
 					scene.environment = texture;
@@ -95,7 +95,7 @@
 
 			baseGeom.setAttribute('flex', new THREE.InstancedBufferAttribute(flexs, 1))
 
-			const texture = new THREE.TextureLoader().load('./grass_blade_3.png');
+			const texture = new THREE.TextureLoader().load('./textures/grass_blade_3.png');
 
 			const uniforms = {
 				time: {

@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>three-grass</title>
-	<link rel="stylesheet" type="text/css" href="../style.css">
+	<title>Yeti</title>
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
 </head>
 <body>
+	<div class="title">Yeti</div>
+	<div class="subtitle">WebGL Effect<div class="info">Done with three.js</div></div>
 	<script type="module">
-		import * as THREE from '../three.js-131/build/three.module.js';
-		import { OrbitControls } from '../three.js-131/examples/jsm/controls/OrbitControls.js';
-		import { GLTFLoader } from '../three.js-131/examples/jsm/loaders/GLTFLoader.js';
-		import {HDRCubeTextureLoader} from '../three.js/examples/jsm/loaders/HDRCubeTextureLoader.js';
-		import {SkinnedMeshPositionReader} from './SkinnedMeshPositionReader.js';
+		import * as THREE from './libs/build/three.module.js';
+		import { OrbitControls } from './libs/examples/jsm/controls/OrbitControls.js';
+		import { GLTFLoader } from './libs/examples/jsm/loaders/GLTFLoader.js';
+		import {HDRCubeTextureLoader} from './libs/examples/jsm/loaders/HDRCubeTextureLoader.js';
+		import {SkinnedMeshPositionReader} from './src/SkinnedMeshPositionReader.js';
 
 		const simpleNoise = `
 			float N (vec2 st) { // https://thebookofshaders.com/10/
@@ -41,10 +43,14 @@
 		const tempNormal = new THREE.Vector3();
 		const dummy = new THREE.Object3D();
 
+		const title = document.querySelector('.title');
+		const subtitle = document.querySelector('.subtitle');
+
+
 		let camera, scene, renderer, model, material, control, mixer, instancedMesh;
 		let COUNT;
 
-		const tex = new THREE.TextureLoader().load('./fur3.jpeg');
+		const tex = new THREE.TextureLoader().load('./textures/fur3.jpeg');
 		tex.flipY = false;
 
 		let textureCube;
@@ -52,7 +58,7 @@
 
 		const initCubeMap = () => {
 			textureCube = new HDRCubeTextureLoader()
-			.setPath( './' )
+			.setPath( './textures/' )
 			.load( [ 'irr_posx.hdr', 'irr_negx.hdr', 'irr_posy.hdr', 'irr_negy.hdr', 'irr_posz.hdr', 'irr_negz.hdr' ],
 				( texture ) => {
 					scene.environment = texture;
@@ -76,7 +82,7 @@
 		        16
 		    ).translate(0, options.bladeHeight / 2, 0)
 			
-			const texture = new THREE.TextureLoader().load('./grass_blade_2.png');
+			const texture = new THREE.TextureLoader().load('./textures/grass_blade_2.png');
 
 			const uniforms = {
 				time: {
@@ -277,7 +283,8 @@
 			skm.init(skinnedMesh);
 
 			console.log('- START -');
-
+			title.classList.add('show')
+			subtitle.classList.add('show')
 			update();
 		};
 
